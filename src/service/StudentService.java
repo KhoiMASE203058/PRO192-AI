@@ -1,38 +1,62 @@
 package service;
 
-import model.student;
+import model.Student;
+import util.Validator;
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.List;
 
-public class studentservice {
-    public ArrayList<student> list = new ArrayList<>();
+public class StudentService {
 
-    public void add(student s) {
-        if (list.size() < 100) {
-            list.add(s);
+    private final List<Student> students = new ArrayList<>();
+
+    public void addStudent(Student s) throws Exception {
+        if (students.size() >= 100) {
+            throw new Exception("Maximum student limit reached.");
         }
+
+        if (!Validator.isValidGPA(s.getGpa())) {
+            throw new Exception("Invalid GPA.");
+        }
+
+        if (getStudentById(s.getId()) != null) {
+            throw new Exception("Student ID already exists.");
+        }
+
+        students.add(s);
     }
 
-    public void delete(int id) {
-        for (student s : list) {
-            if (s.id == id) {
-                list.remove(s); 
-                break;
+    public void deleteStudent(int id) throws Exception {
+        Student s = getStudentById(id);
+        if (s == null) {
+            throw new Exception("Student not found.");
+        }
+        students.remove(s);
+    }
+
+    public List<Student> searchStudent(String name) {
+        List<Student> result = new ArrayList<>();
+        for (Student s : students) {
+            if (s.getFullName().toLowerCase().contains(name.toLowerCase())) {
+                result.add(s);
             }
         }
+        return result;
     }
 
-    public void find(String n) {
-        for (student s : list) {
-            if (s.name.toLowerCase() == n.toLowerCase()) {
-                System.out.println(s);
-            }
+    public void displayStudents() {
+
+        System.out.printf("%-10s %-30s %s\n", "ID", "Full Name", "GPA");
+
+        for (Student s : students) {
+            System.out.println(s);
         }
     }
 
-    public void display() {
-        for (student s : list) {
-            System.out.println(s.toString());
+    private Student getStudentById(int id) {
+
+        for (Student s : students) {
+            if (s.getId() == id) return s;
         }
+        return null;
     }
 }
