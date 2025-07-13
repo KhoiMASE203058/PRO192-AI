@@ -1,43 +1,52 @@
-package service;
+package main;
 
 import model.Student;
-import java.util.ArrayList;
+import service.StudentManager;
 
-public class StudentManager {
-    public ArrayList<Student> studentList = new ArrayList<>();
+import java.util.Scanner;
 
-    public void addStudent(Student s) {
-        studentList.add(s);
-    }
+public class Main {
+    public static void main(String[] args) {
+        StudentManager manager = new StudentManager();
+        Scanner sc = new Scanner(System.in);
 
-    public boolean deleteStudent(int id) {
-        for (Student s : studentList) {
-            if (s.getId() == id) {
-                studentList.remove(s);
-                return true;
+        while (true) {
+            System.out.println("\n1. Add Student\n2. Delete Student\n3. Search Student\n4. Display All\n5. Exit");
+            System.out.print("Choice: ");
+            int choice = sc.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter ID: ");
+                    int id = sc.nextInt();
+                    sc.nextLine();
+                    System.out.print("Enter Full Name: ");
+                    String name = sc.nextLine();
+                    System.out.print("Enter GPA: ");
+                    double gpa = sc.nextDouble();
+                    manager.addStudent(new Student(id, name, gpa));
+                    break;
+                case 2:
+                    System.out.print("Enter ID to delete: ");
+                    int delId = sc.nextInt();
+                    boolean deleted = manager.deleteStudent(delId);
+                    if (!deleted) {
+                        System.out.println("Student not found.");
+                    }
+                    break;
+                case 3:
+                    System.out.print("Enter name or part of it: ");
+                    sc.nextLine();
+                    String search = sc.nextLine();
+                    var results = manager.searchStudent(search);
+                    results.forEach(System.out::println);
+                    break;
+                case 4:
+                    manager.displayAllStudents();
+                    break;
+                case 5:
+                    System.exit(0);
             }
         }
-        return false;
-    }
-
-    public ArrayList<Student> searchStudent(String namePart) {
-        ArrayList<Student> results = new ArrayList<>();
-        for (Student s : studentList) {
-            if (s.getFullName().toLowerCase().contains(namePart.toLowerCase())) {
-                results.add(s);
-            }
-        }
-        return results;
-    }
-
-    public void displayAllStudents() {
-        System.out.println(String.format("%-10s %-50s %-4s", "ID", "Full Name", "GPA"));
-        for (Student s : studentList) {
-            System.out.println(s);
-        }
-    }
-
-    public void unusedMethod() {
-        int temp = 0;
     }
 }
