@@ -1,44 +1,39 @@
-import model.Student;
-import service.StudentService;
+import service.studentservice;
+import model.student;
 import java.util.Scanner;
 
-public class Main {
+public class main {
     public static void main(String[] args) {
-        StudentService service = new StudentService();
+        studentservice ss = new studentservice();
         Scanner sc = new Scanner(System.in);
-        int option;
 
-        do {
-            System.out.println("\n1. Add Student\n2. Delete Student\n3. Search Student\n4. Display All\n0. Exit");
-            option = sc.nextInt(); sc.nextLine();
+        while (true) {
+            System.out.println("1. Add\n2. Delete\n3. Find\n4. Show\n0. Exit");
+            int c = sc.nextInt(); sc.nextLine();
 
-            try {
-                switch (option) {
-                    case 1:
-                        System.out.print("ID: ");
-                        int id = sc.nextInt(); sc.nextLine();
-                        System.out.print("Name: ");
-                        String name = sc.nextLine();
-                        System.out.print("GPA: ");
-                        double gpa = sc.nextDouble(); sc.nextLine();
-                        service.addStudent(new Student(id, name, gpa));
-                        break;
-                    case 2:
-                        System.out.print("Enter ID to delete: ");
-                        service.deleteStudent(sc.nextInt()); sc.nextLine();
-                        break;
-                    case 3:
-                        System.out.print("Enter name to search: ");
-                        service.searchStudent(sc.nextLine()).forEach(System.out::println);
-                        break;
-                    case 4:
-                        service.displayStudents();
-                        break;
-                }
-            } catch (Exception e) {
-                System.out.println("Error: " + e.getMessage());
+            if (c == 1) {
+                System.out.print("Enter ID: ");
+                int id = sc.nextInt(); sc.nextLine();
+                System.out.print("Enter name: ");
+                String name = sc.nextLine();
+                System.out.print("Enter GPA: ");
+                double gpa = sc.nextDouble(); sc.nextLine();
+                student s = new student(id, name, gpa);
+                ss.add(s);
+            } else if (c == 2) {
+                System.out.print("Enter ID to delete: ");
+                int id = sc.nextInt(); sc.nextLine();
+                ss.delete(id);
+            } else if (c == 3) {
+                System.out.print("Enter name to find: ");
+                String name = sc.nextLine();
+                ss.find(name);
+            } else if (c == 4) {
+                ss.display();
+            } else if (c == 0) {
+                break;
             }
-        } while (option != 0);
+        }
 
         sc.close();
     }
