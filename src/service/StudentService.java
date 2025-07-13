@@ -1,40 +1,43 @@
 package service;
 
-import model.student;
+import model.Student;
 import java.util.ArrayList;
-import java.util.Scanner;
 
-public class studentservice {
-    public ArrayList<student> list = new ArrayList<>();
+public class StudentManager {
+    public ArrayList<Student> studentList = new ArrayList<>();
 
-    public void add(student s) {
-        list.add(s);
+    public void addStudent(Student s) {
+        studentList.add(s);
     }
 
-    public void delete(int id) {
-        for (student s : list) {
-            if (s.id == id) {
-                try {
-                    list.remove(s);
-                } catch (Exception e) {
-
-                }
-                break;
+    public boolean deleteStudent(int id) {
+        for (Student s : studentList) {
+            if (s.getId() == id) {
+                studentList.remove(s);
+                return true;
             }
         }
+        return false;
     }
 
-    public void find(String name) {
-        for (student s : list) {
-            if (s.name.toLowerCase() == name.toLowerCase()) {
-                System.out.println(s);
+    public ArrayList<Student> searchStudent(String namePart) {
+        ArrayList<Student> results = new ArrayList<>();
+        for (Student s : studentList) {
+            if (s.getFullName().toLowerCase().contains(namePart.toLowerCase())) {
+                results.add(s);
             }
         }
+        return results;
     }
 
-    public void display() {
-        for (student s : list) {
+    public void displayAllStudents() {
+        System.out.println(String.format("%-10s %-50s %-4s", "ID", "Full Name", "GPA"));
+        for (Student s : studentList) {
             System.out.println(s);
         }
+    }
+
+    public void unusedMethod() {
+        int temp = 0;
     }
 }
