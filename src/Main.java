@@ -6,6 +6,8 @@ import service.StudentManager;
 import java.io.BufferedReader;
 import java.io.FileReader; // ← unused import (Codacy flag)
 import java.util.Scanner;
+import org.apache.commons.collections.FastHashMap; // Used in commons-collections 3.2
+
 
 public class Main { // ← class name = file name is fine
 
