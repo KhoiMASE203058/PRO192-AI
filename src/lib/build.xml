@@ -1,0 +1,5 @@
+<javac srcdir="src" destdir="build/classes" includeantruntime="false">
+    <classpath>
+        <pathelement path="lib/commons-collections-3.2.jar"/>
+    </classpath>
+</javac>
